@@ -4,7 +4,7 @@ services:
     image: grafana/grafana:7.5.2
     restart: always
     ports:
-      - 3000:3000
+      - 3500:3000
     volumes:
       - ./grafana:/var/lib/grafana
     depends_on:
@@ -37,5 +37,6 @@ services:
     depends_on:
       - influxdb
     restart: "always"
-    restart_policy:
-      delay: 60s
+    deploy:
+      restart_policy:
+        delay: 60s
