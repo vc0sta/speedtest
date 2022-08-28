@@ -31,13 +31,14 @@ services:
     volumes:
       - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
       - /:/hostfs:ro
+    container_name: telegraf
     environment:
-      - HOST_ETC="/hostfs/etc"
-      - HOST_PROC="/hostfs/proc"
-      - HOST_SYS="/hostfs/sys"
-      - HOST_VAR="/hostfs/var"
-      - HOST_RUN="/hostfs/run"
-      - HOST_MOUNT_PREFIX="/hostfs"
+      - HOST_ETC=/hostfs/etc
+      - HOST_PROC=/hostfs/proc
+      - HOST_SYS=/hostfs/sys
+      - HOST_VAR=/hostfs/var
+      - HOST_RUN=/hostfs/run
+      - HOST_MOUNT_PREFIX=/hostfs
     depends_on:
       - influxdb
     ports:
