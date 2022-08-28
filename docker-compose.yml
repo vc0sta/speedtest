@@ -2,16 +2,19 @@ version: "3"
 services:
   grafana:
     image: grafana/grafana:7.5.2
-    restart: always
+    container_name: grafana
+    restart: unless-stopped
     ports:
       - 3500:3000
     volumes:
-      - ./grafana:/var/lib/grafana
+      - ./datasources:/etc/grafana/provisioning/datasources
+      - ./grafana-data:/var/lib/grafana
     depends_on:
       - influxdb
 
   influxdb:
     image: influxdb:1.8.3
+    container_name: influxdb
     volumes:
       - ./influxdb:/var/lib/influxdb
     ports:
@@ -24,6 +27,7 @@ services:
 
   speedtest:
     build: .
+    container_name: speedtest
     volumes:
       - './speedtest.py:/speedtest.py'
     environment:
