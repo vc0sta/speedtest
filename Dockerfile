@@ -1,11 +1,14 @@
-FROM debian:bullseye
+FROM python:3-slim
 
 # Install basics
-RUN apt-get update && apt-get install -y curl jq gnupg1 apt-transport-https dirmngr
+RUN apt-get update && apt-get install -y curl
 
 # Install speedtest cli
-RUN curl -s https://install.speedtest.net/app/cli/install.deb.sh | bash
-RUN apt-get install speedtest
+RUN curl -s https://packagecloud.io/install/repositories/ookla/speedtest-cli/script.deb.sh | bash &&\
+    apt-get install speedtest
 
-COPY ./speedtest.sh .
-CMD ["./speedtest.sh"]
+COPY requirements.txt ./
+RUN pip install --no-cache-dir -r requirements.txt
+
+COPY ./speedtest.py .
+CMD ["python", "./speedtest.py"]
