@@ -4,6 +4,7 @@ services:
     image: grafana/grafana:7.5.2
     container_name: grafana
     restart: unless-stopped
+    user: "472"
     ports:
       - 3500:3000
     volumes:
@@ -16,7 +17,7 @@ services:
     image: influxdb:1.8.3
     container_name: influxdb
     volumes:
-      - ./influxdb:/var/lib/influxdb
+      - ./influxdb-data:/var/lib/influxdb
     ports:
       - 8083:8083
       - 8086:8086
