@@ -26,6 +26,23 @@ services:
       - INFLUXDB_ADMIN_PASSWORD="password"
       - INFLUXDB_DB="speedtest"
 
+  telegraf:
+    image: telegraf:1.18-alpine
+    volumes:
+      - ./telegraf.conf:/etc/telegraf/telegraf.conf:ro
+      - /:/hostfs:ro
+    environment:
+      - HOST_ETC="/hostfs/etc"
+      - HOST_PROC="/hostfs/proc"
+      - HOST_SYS="/hostfs/sys"
+      - HOST_VAR="/hostfs/var"
+      - HOST_RUN="/hostfs/run"
+      - HOST_MOUNT_PREFIX="/hostfs"
+    depends_on:
+      - influxdb
+    ports:
+    - '8125:8125'
+
   speedtest:
     build: .
     container_name: speedtest
